@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<!-- favicon all compatible links -->
+		<link rel="icon" href="favicon.ico">
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<link rel="manifest" href="/site.webmanifest">
+		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+		<meta name="msapplication-TileColor" content="#da532c">
+		<meta name="theme-color" content="#ffffff">
+		<!-- favicon all compatible links end -->
+		<title>Michiko (SQL)</title>
+		<!-- Bootstrap core CSS -->
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+		<!-- Custom styles for this template -->
+		<link href="css/jquery.bxslider.css" rel="stylesheet">
+		<link href="css/style.css" rel="stylesheet">
+	</head>
+	<body>
+		<!-- Navigation -->
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					</button>
+				</div>
+				<div id="navbar" class="collapse navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="index.html">&#8629;</a></li>
+						<li><a href="sql.html" style="text-decoration: underline;">SQL</a></li>
+						<li><a href="uiux.html">UI/UX</a></li>
+					</ul>
+
+					<ul class="nav navbar-nav navbar-right">
+					</ul>
+
+				</div>
+				<!--/.nav-collapse -->
+			</div>
+		</nav>
+
+		<div class="container">
+		<header>
+		</header>
+		<section>
+			<div class="row">
+				<div class="col-md-12">
+					<p>**Extracting the required dataset with appropriate logic is a challenging part of handling database. This is my study notes. My goal is to gain knowledge of SQL to write complex, highly-optimized queries across large volumes of data.</p>
+					<article class="blog-post">
+						<div class="blog-post-body">
+							<h3>When creating/organizing tables, keep in mind...</h3>
+							<div class="blog-post-text">
+
+								<p>Normalization is the process of restructuring a relational database to reduce data redundancy and improve data integrity. Basically in my words, it’s optimizing and organizing database to manage effectively.</p>
+
+								<h4>What are “normalized tables”?</h4>
+			
+									<li>Every row has the same number of columns.</li>
+									<li>There is a unique key and everything in a row says something about the key. </li>
+									<li>Facts that don't relate to the key belong in different tables.</li>
+									<li>Tables shouldn't imply relationships that don't exist.</li>
+
+								<h3>Counting a zero value in rows</h3>
+								<p>The count aggregation function is to count rows in a table. For example, below query will return the number of products.</p>
+								<p class="query">SELECT count(*)<br>FROM products;</p>
+
+								<img src = images/subqueries_table_1.png alt="subqueries_table_1"> 
+								<img src = images/subqueries_table_2.png alt="subqueries_table_2">
+
+								<p>What if we want to count a zero value while joining 2 tables? <br>My first query is below.</p>
+
+								<p class="query">SELECT products.name, products.sku, count(*) as num<br>FROM products join sales<br>ON products.sku = sales.sku<br>GROUP BY products.sku;</p>
+
+								<p>It returns only non-zero values. Why? Because, it’s inner join and only rows that are overwrapped between the tables and doesn't show non-sales rows. Here is the solution.</p>
+
+								<p class="query">SELECT products.name, products.sku, COUNT(sales.sku) as num<br>FROM products left join<br>ON products.sku = sales.sku<br>GROUP BY products.sku;</p>
+
+								<p>Notice the join type is “left join” and count(*) changes to count(sales.sku).
+								With left joining the query returns all products(left side of table) which means including non-sales products. And specifying the count column to be “sales.sku.” The rows of "sales.sku" are counted instead of all the columns.</p>
+
+								<h3>Subqueries 1</h3>
+								<p>How to get the second highest value in the table with subquery.</p>							
+								<p class="query">SELECT name<br>FROM products<br>WHERE sku IN (SELECT sku FROM products<br>		WHERE price = (SELECT MAX(price) FROM products<br>			WHERE price < (SELECT MAX(price) FROM products)));</p>
+
+								<p>How I get the result:<br>					
+								 1. Get the highest price with query below. </p>
+
+								<p class="query">SELECT MAX(price)<br>FROM products</p>
+
+								<p>2. Create 2 layers of query created in step 1 and connect with comparison operator "<" in the WHERE condition as an outer query.<br>3. Since sku is a primary key and it can bridge product name and the second highest price as an inner and an outer queries. Notice "IN" is being used to connect the inner and the outer queries to get multiple result in case it returns more than one row.</p>
+
+								<h3>Subqueries 2</h3>
+
+
+
+
+
+							</div>
+						</div>
+					</article>
+				</div>
+			</div>
+		</section>
+		</div><!-- /.container -->
+
+		<footer class="footer">
+			<div class="footer-bottom">
+				<p>It's my SQL study notes and some are taken from free/paid online courses I have taken. I'm happy to share my learning process and feel free to use however.</p>
+			</div>
+		</footer>
+
+		<!-- Bootstrap core JavaScript
+			================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/jquery.bxslider.js"></script>
+		<script src="js/mooz.scripts.min.js"></script>
+	</body>
+</html>
