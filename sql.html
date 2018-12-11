@@ -136,8 +136,81 @@
 								<P>Find the name of the sales_rep in each region with the largest amount of total_amt_usd sales.</P>
 								<img src = images/subqueries_table_3.png alt="subqueries_table_3">
 								<p>The process:<br>	
-									1. Identify which tables are going to be used and the relationship between them. 
-								</p>	
+								1. Identify which tables are going to be used and the relationship between them. It’s asking “the name of the sales_rep in each region” so we are going to join sales_reps, region, accounts, and orders tables with FK and PK in order to extract the required information.</p>
+
+								<ul class ="query">
+									<li>FROM region r </li>
+									<li>JOIN sales_reps sr</li>
+									<li>ON r.id = s.region_id</li>
+									<li>JOIN accounts a</li>
+									<li>ON sr.id = a.sales_rep_id</li>
+									<li>JOIN orders o</li>
+									<li>ON a.id = o.account_id</li>
+								</ul>
+								<p>2. Next is to fill in the “SELECT” section to extract columns data. We want sales rep name, region name, and  total_amt_usd of each sales rep so we use SUM aggregation.  We apply group and order functions to organize the result.</p>	
+
+								<ul class="query">
+									<li>SELECT sr.name, r.name, SUM(total_amt_usd)</li>
+									<li>FROM region r </li>
+									<li>JOIN sales_reps sr</li>
+									<li>ON r.id = s.region_id</li>
+									<li>JOIN accounts a</li>
+									<li>ON sr.id = a.sales_rep_id</li>
+									<li>JOIN orders o</li>
+									<li>ON a.id = o.account_id</li>
+									<li>GROUP BY 1,2</li>
+									<li>ORDER BY 3 DESC</li>
+								</ul>	
+
+								<p>3. I thought this was completed. However, the same region with different rep name and total number are returned as a result. We want the highest total amount with region name and sales rep name. We need to find out MAX of total_amt for each region so we pull MAX aggregation and region name needs to be grouped. The alias name "T1" is given.</p>
+
+								<ul class="query">
+								<li>SELECT region_name, MAX(total_amt) total_amt</li>
+								<li>FROM(SELECT s.name rep_name, r.name region_name, SUM(o.total_amt_usd) total_amt</li>
+						     		<ul class="query">
+						             <li>FROM sales_reps s</li>
+						             <li>JOIN accounts a</li>
+						             <li>ON a.sales_rep_id = s.id</li>
+						             <li>JOIN orders o</li>
+						             <li>ON o.account_id = a.id</li>
+						             <li>JOIN region r</li>
+						             <li>ON r.id = s.region_id</li>
+						             <li>GROUP BY 1, 2) t1</li>
+						            </ul>	
+								<li>GROUP BY 1;</li>
+								</ul>	
+								<p>4. Finally, we need to combine the 2 queries based on region name and total_amt.</p>
+								<ul class="query">
+									<li>SELECT t3.rep_name, t3.region_name, t3.total_amt</li>
+									<li>FROM(SELECT region_name, MAX(total_amt) total_amt</li>
+									<ul class ='query'>
+										<li>FROM(SELECT s.name rep_name, r.name region_name, SUM(o.total_amt_usd) total_amt</li>							
+										<ul class="query">
+											<li>FROM sales_reps s</li>
+									         <li>JOIN accounts a</li>
+									         <li>ON a.sales_rep_id = s.id</li>
+									         <li>JOIN orders o</li>
+									         <li>ON o.account_id = a.id</li>
+									         <li>JOIN region r</li>
+									         <li>ON r.id = s.region_id</li>
+									         <li>GROUP BY 1, 2) t1</li>
+									     </ul>
+									    <li>GROUP BY 1) t2 </li>   		
+									</ul> 
+									<li>JOIN (SELECT s.name rep_name, r.name region_name, SUM(o.total_amt_usd) total_amt</li>
+										<ul class="query">
+											<li>FROM sales_reps s</li>
+									        <li>JOIN accounts a</li>
+									        <li>ON a.sales_rep_id = s.id</li>
+									        <li>JOIN orders o</li>
+									        <li>ON o.account_id = a.id</li>
+									        <li>JOIN region r</li>
+									        <li>ON r.id = s.region_id</li>
+									        <li>GROUP BY 1, 2</li>
+									        <li>ORDER BY 3 DESC) t3</li>
+									    </ul>	
+									<li>ON t3.region_name = t2.region_name AND t3.total_amt = t2.total_amt;</li>    	
+						        </ul>
 							</div>
 						</div>
 					</article>
