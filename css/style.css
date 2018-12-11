@@ -30,12 +30,16 @@ p {
 	line-height: 24px;
 	color: #000;
 }
-.blog-post .blog-post-text p.query{
+.blog-post .blog-post-text ul.query{
 	font-family: monospace;
 	font-weight: 900;
 	word-wrap: break-word;
-	white-space: pre-wrap
+	list-style-type: none;
+	margin-left: 0px
 }
+
+
+
 img {
 	max-width: 100%;
 	height: auto;

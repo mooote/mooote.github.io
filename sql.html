@@ -67,47 +67,77 @@
 								<p>Normalization is the process of restructuring a relational database to reduce data redundancy and improve data integrity. Basically in my words, it’s optimizing and organizing database to manage effectively.</p>
 
 								<h4>What are “normalized tables”?</h4>
-			
+
+								<ul class ="explanations">
 									<li>Every row has the same number of columns.</li>
 									<li>There is a unique key and everything in a row says something about the key. </li>
 									<li>Facts that don't relate to the key belong in different tables.</li>
 									<li>Tables shouldn't imply relationships that don't exist.</li>
+								</ul>	
 
 								<h3>Counting a zero value in rows</h3>
 								<p>The count aggregation function is to count rows in a table. For example, below query will return the number of products.</p>
-								<p class="query">SELECT count(*)<br>FROM products;</p>
+								
+								<ul class ="query">
+									<li>SELECT count(*)</li>
+									<li>FROM products;</li>
+								</ul>
 
 								<img src = images/subqueries_table_1.png alt="subqueries_table_1"> 
 								<img src = images/subqueries_table_2.png alt="subqueries_table_2">
 
-								<p>What if we want to count a zero value while joining 2 tables? <br>My first query is below.</p>
+								<p>What if we want to count a zero value while joining 2 tables? <br>The first query is below.</p>
 
-								<p class="query">SELECT products.name, products.sku, count(*) as num<br>FROM products join sales<br>ON products.sku = sales.sku<br>GROUP BY products.sku;</p>
+								<ul class ="query">
+									<li>SELECT products.name, products.sku, count(*) as num</li>
+									<li>FROM products join</li>
+									<li>GROUP BY products.sku;</li>
+								</ul>	
 
 								<p>It returns only non-zero values. Why? Because, it’s inner join and only rows that are overwrapped between the tables and doesn't show non-sales rows. Here is the solution.</p>
 
-								<p class="query">SELECT products.name, products.sku, COUNT(sales.sku) as num<br>FROM products left join<br>ON products.sku = sales.sku<br>GROUP BY products.sku;</p>
-
+								<ul class ="query">
+									<li>SELECT products.name, products.sku, COUNT(sales.sku) as num</li>
+									<li>FROM products left join</li>
+								    <li>ON products.sku = sales.sku</li>
+							        <li>GROUP BY products.sku;</li>
+							    </ul>
+							        	
 								<p>Notice the join type is “left join” and count(*) changes to count(sales.sku).
 								With left joining the query returns all products(left side of table) which means including non-sales products. And specifying the count column to be “sales.sku.” The rows of "sales.sku" are counted instead of all the columns.</p>
 
 								<h3>Subqueries 1</h3>
-								<p>How to get the second highest value in the table with subquery.</p>							
-								<p class="query">SELECT name<br>FROM products<br>WHERE sku IN (SELECT sku FROM products<br>		WHERE price = (SELECT MAX(price) FROM products<br>			WHERE price < (SELECT MAX(price) FROM products)));</p>
+								<p>How to get the second highest value in the table with subquery.</p>						
+								<ul class ="query">
+									<li>SELECT name</li>
+									<li>FROM products</li>
+									<li>WHERE sku IN (SELECT sku FROM products</li>
+									<ul class ="query">
+									<li>WHERE price = (SELECT MAX(price) FROM products</li>
+										<ul class ="query">
+										<li>WHERE price < (SELECT MAX(price) FROM products)));</li>
+									    </ul>
+									</ul>
+									
+								</ul>
 
-								<p>How I get the result:<br>					
-								 1. Get the highest price with query below. </p>
+								<p>The process:<br>					
+								 1. Get the highest price with query below.</p>
 
-								<p class="query">SELECT MAX(price)<br>FROM products</p>
+								<ul class ="query">
+								<li>SELECT MAX(price)</li>
+							    <li>FROM products</li>
+							    </ul>
 
-								<p>2. Create 2 layers of query created in step 1 and connect with comparison operator "<" in the WHERE condition as an outer query.<br>3. Since sku is a primary key and it can bridge product name and the second highest price as an inner and an outer queries. Notice "IN" is being used to connect the inner and the outer queries to get multiple result in case it returns more than one row.</p>
+								<p>2. Create 2 layers of query from step 1 and connect with comparison operator "<" in the WHERE condition as an outer query.<br>3. Since sku is a primary key and it can bridge product name and the second highest price as an inner and an outer queries. Notice "IN" is being used to connect the inner query and the outer query to get multiple results in case it returns more than one row.</p>
 
-								<h3>Subqueries 2</h3>
+								<h3>Subqueries 2</h3>							
 
-
-
-
-
+								<P>Find the name of the sales_rep in each region with the largest amount of total_amt_usd sales.</P>
+								<img src = images/subqueries_table_3.png alt="subqueries_table_3">
+								<p>The process:<br>	
+									1. Identify which tables are going to be used and the relationship between them. 
+								</p>	
 							</div>
 						</div>
 					</article>
