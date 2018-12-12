@@ -58,7 +58,7 @@
 		<section>
 			<div class="row">
 				<div class="col-md-12">
-					<p>**Extracting the required dataset with appropriate logic is a challenging part of handling database. This is my study notes. My goal is to gain knowledge of SQL to write complex, highly-optimized queries across large volumes of data.</p>
+					<p>**Data extractions and manippulations can be challenging. This is my study notes. My goal is to gain knowledge of SQL to write complex, highly-optimized queries across large volumes of data.</p>
 					<article class="blog-post">
 						<div class="blog-post-body">
 							<h3>When creating/organizing tables, keep in mind...</h3>
@@ -86,7 +86,7 @@
 								<img src = images/subqueries_table_1.png alt="subqueries_table_1"> 
 								<img src = images/subqueries_table_2.png alt="subqueries_table_2">
 
-								<p>What if we want to count a zero value while joining 2 tables? <br>The first query is below.</p>
+								<p>What if we want to count a zero value while joining 2 tables? <br>Let's try this query.</p>
 
 								<ul class ="query">
 									<li>SELECT products.name, products.sku, count(*) as num</li>
@@ -94,7 +94,7 @@
 									<li>GROUP BY products.sku;</li>
 								</ul>	
 
-								<p>It returns only non-zero values. Why? Because, it’s inner join and only rows that are overwrapped between the tables and doesn't show non-sales rows. Here is the solution.</p>
+								<p>It returns only non-zero values. Why? Because, it’s inner join and only rows that are overwrapped between the tables will return. It doesn't show non-sales rows. Here is the solution.</p>
 
 								<ul class ="query">
 									<li>SELECT products.name, products.sku, COUNT(sales.sku) as num</li>
@@ -103,8 +103,7 @@
 							        <li>GROUP BY products.sku;</li>
 							    </ul>
 							        	
-								<p>Notice the join type is “left join” and count(*) changes to count(sales.sku).
-								With left joining the query returns all products(left side of table) which means including non-sales products. And specifying the count column to be “sales.sku.” The rows of "sales.sku" are counted instead of all the columns.</p>
+								<p>Notice that the join type changes to “left join” and count(*) changes to "count(sales.sku)." With left join the query returns all products(left side of table) including non-sales products. And by specifying the count column to be “sales.sku” the rows of "sales.sku" are counted instead of all the columns.</p>
 
 								<h3>Subqueries 1</h3>
 								<p>How to get the second highest value in the table with subquery.</p>						
@@ -121,8 +120,7 @@
 									
 								</ul>
 
-								<p>The process:<br>					
-								 1. Get the highest price with query below.</p>
+								<p>1. Get the highest price with query below.</p>
 
 								<ul class ="query">
 								<li>SELECT MAX(price)</li>
@@ -135,8 +133,7 @@
 
 								<P>Find the name of the sales_rep in each region with the largest amount of total_amt_usd sales.</P>
 								<img src = images/subqueries_table_3.png alt="subqueries_table_3">
-								<p>The process:<br>	
-								1. Identify which tables are going to be used and the relationship between them. It’s asking “the name of the sales_rep in each region” so we are going to join sales_reps, region, accounts, and orders tables with FK and PK in order to extract the required information.</p>
+								<p>1. Identify which tables are going to be used and the relationship between them. It’s asking “the name of the sales_rep in each region” so we are going to join sales_reps, region, accounts, and orders tables with FK and PK in order to extract the required information.</p>
 
 								<ul class ="query">
 									<li>FROM region r </li>
@@ -162,7 +159,7 @@
 									<li>ORDER BY 3 DESC</li>
 								</ul>	
 
-								<p>3. I thought this was completed. However, the same region with different rep name and total number are returned as a result. We want the highest total amount with region name and sales rep name. We need to find out MAX of total_amt for each region so we pull MAX aggregation and region name needs to be grouped. The alias name "T1" is given.</p>
+								<p>3. The same region with different rep name and total number are returned as a result. We want the highest total amount with region name and sales rep name. We need to find out MAX of total_amt for each region so we pull MAX aggregation and region name and grouped by region name. The alias name "T1" is given.</p>
 
 								<ul class="query">
 								<li>SELECT region_name, MAX(total_amt) total_amt</li>
@@ -221,7 +218,7 @@
 
 		<footer class="footer">
 			<div class="footer-bottom">
-				<p>It's my SQL study notes and some are taken from free/paid online courses I have taken. I'm happy to share my learning process and feel free to use however.</p>
+				<p>This is my SQL study notes and some are taken from free/paid online courses I have taken. I'm happy to share my learning process and feel free to use however.</p>
 			</div>
 		</footer>
 
