@@ -39,8 +39,8 @@
 				</div>
 				<div id="navbar" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav">
-						<li class="active"><a href="index.html">&#8629;</a></li>
-						<li><a href="sql.html" style="text-decoration: underline;">SQL</a></li>
+						<li><a href="index.html">&#8629;</a></li>
+						<li class="active"><a href="sql.html">SQL</a></li>
 						<li><a href="uiux.html">UI/UX</a></li>
 					</ul>
 
@@ -208,7 +208,71 @@
 									<li>ON t3.region_name = t2.region_name AND t3.total_amt = t2.total_amt;</li>    	
 						        </ul>
 
-						        <h3>Sorting data with Excel Pivot table</h3>
+						        <h3>Subqueries 3</h3>							
+								<P>Find out how many total orders are placed from the previously extracted data set, the region with the largest of sales total_amt_usd.</P>
+
+								<p>1. Going to back to subqueries 2- step 3, the query pulls the region with the largest of sales total_amt_usd. We are going to use this query and modify to find out the largest of sales total_amt_usd.</p> 
+
+								<ul class = "query">
+								<li>SELECT MAX(total_amt) total_amt</li>
+								<li>FROM(SELECT r.name region_name, SUM(o.total_amt_usd) total_amt</li>
+									<ul class="query">
+										<li>FROM sales_reps s</li>
+										<li>JOIN accounts a</li>
+										<li>ON a.sales_rep_id = s.id</li>
+										<li>JOIN orders o</li>
+									    <li>ON o.account_id = a.id</li>
+									    <li>JOIN region r</li>
+									    <li>ON r.id = s.region_id</li>
+									    <li>GROUP BY 1) t1</li>
+									</ul>   
+							    </ul>
+
+							    <p>2. Create a query to get region name and counting total from the order table. Make it group by region name.</p>
+
+							    <ul class="query">
+							    <li>SELECT r.name region_name, COUNT(o.total) total_count</li>	
+							    <li>FROM sales_reps s</li>
+							    <li>JOIN accounts a</li>
+							    <li>ON a.sales_rep_id = s.id</li>
+							    <li>JOIN orders o</li>
+							    <li>ON o.account_id = a.id</li>
+							    <li>JOIN region r</li>
+							    <li>ON r.id = s.region_id</li>
+							    <li>GROUP BY 1</li>
+							    </ul>
+
+							    <p>3. Finally, applying HAVING clause to connect the 2 queries. The query is group by region so with HAVING clause to pull the largest of sales total_amt_usd.</p>
+
+							    <ul class="query">
+							    <li>SELECT r.name region_name, COUNT(o.total) total_count</li>	
+							    <li>FROM sales_reps s</li>
+							    <li>JOIN accounts a</li>
+							    <li>ON a.sales_rep_id = s.id</li>
+							    <li>JOIN orders o</li>
+							    <li>ON o.account_id = a.id</li>
+							    <li>JOIN region r</li>
+							    <li>ON r.id = s.region_id</li>
+							    <li>GROUP BY 1</li>
+							    <li>HAVING SUM(o.total_amt_usd) = (</li>
+							    		<ul class="query">
+							    			<li>SELECT MAX(total_amt) total_amt</li>
+											<li>FROM(SELECT r.name region_name, SUM(o.total_amt_usd) total_amt</li>							
+											<ul class="query">
+												<li>FROM sales_reps s</li>
+												<li>JOIN accounts a</li>
+												<li>ON a.sales_rep_id = s.id</li>
+												<li>JOIN orders o</li>
+											    <li>ON o.account_id = a.id</li>
+											    <li>JOIN region r</li>
+											    <li>ON r.id = s.region_id</li>
+											    <li>GROUP BY 1) t1</li>
+											</ul> 
+										</ul>		
+							    </ul>
+
+
+						        <h3>Sorting data with Excel pivot table</h3>
 
 						        <p>Let’s say we want to understand how sales reps are doing and their managers as well. This time we use Oracle Live SQL. We create a view called “SR_VREP_VI” and it returns information whose job id is sales reps from employees table. We add a new column called full_name. The column is concat of employees first and last name in case if the same names exist and for clarity. Then, we call the view.</p>
 
@@ -239,7 +303,7 @@
 
 						        <p>The salary range is grouped by 1000. It shows how many sales agents earn in each range. Also, filter by hire date in year is avialbale.</p>
 
-						        <p>With this micro data sorting practice we can learn how to sort and present data in charts or graphs to show comprehensive data analysis. Hooray!</>
+						        <p>With this super micro data sorting practice we can learn how to sort and present data in charts or graphs to show comprehensive data analysis. Hooray!</>
 
 						        
 
