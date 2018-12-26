@@ -271,6 +271,34 @@
 										</ul>		
 							    </ul>
 
+							    <h3>Joins</h3>
+
+							    <p>Find a table that provides the region for each sales_rep along with their associated accounts. This time only for the Midwest region. Your final table should include three columns: the region name, the sales rep name, and the account name. Sort the accounts alphabetically (A-Z) according to account name.</p>
+
+							    <p>1. First, we need to find out which tables are going to be used in order to get the required dataset. By looking at the table charts, we are going to use Region, Sales_reps, and Accounts tables. The columns that we are going to extract on each tables are below.</p>
+
+							    <p> Region - region name<br> Sales_reps - name <br>Accounts - name</p>
+
+							    <p>2. How do we combine the tables? We are going to use Equi-joins. There are foreign and primary key relationships between the connected tables. We are going to join the tables with the matching keys. Notice we use aliases for columns and tables to distinguish.</p>
+
+							    		<ul class="query">
+												<li>SELECT r.name AS region, sr.name AS sa_rep, a.name AS account</li>
+												<li>FROM region r JOIN sales_reps sr</li>
+												<li>ON r.id = sr.region_id</li>
+												<li>JOIN accounts a</li>
+											    <li>ON a. sales_rep_id = sr.id</li>
+										</ul> 
+
+								<p>3. Lastly, we apply WHERE clause to get only Midwest region data and ORDER BY to sort the column to archive the alphabetical order to account name.</p>		
+								 		<ul class="query">
+												<li>SELECT r.name AS region, sr.name AS sa_rep, a.name AS account</li>
+												<li>FROM region r JOIN sales_reps sr</li>
+												<li>ON r.id = sr.region_id</li>
+												<li>JOIN accounts a</li>
+											    <li>ON a. sales_rep_id = sr.id</li>
+											    <li>WHERE r.name = 'Midwest'</li>
+											    <li>ORDER BY 3</li>
+										</ul> 				
 
 						        <h3>Sorting data with Excel pivot table</h3>
 
