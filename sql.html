@@ -271,7 +271,7 @@
 										</ul>		
 							    </ul>
 
-							    <h3>Joins</h3>
+							    <h3>Joins 1</h3>
 
 							    <p>Find a table that provides the region for each sales_rep along with their associated accounts. This time only for the Midwest region. Your final table should include three columns: the region name, the sales rep name, and the account name. Sort the accounts alphabetically (A-Z) according to account name.</p>
 
@@ -298,8 +298,44 @@
 											    <li>ON a. sales_rep_id = sr.id</li>
 											    <li>WHERE r.name = 'Midwest'</li>
 											    <li>ORDER BY 3</li>
-										</ul> 				
+										</ul>
+								<h3>Joins 2</h3>	
+								
+								<p>Find all the orders that occurred in 2015. Your final table should have 4 columns: occurred_at, account name, order total, and order total_amt_usd.</p>
 
+								<p>We are going to join orders and accounts tables and list the 4 columns in SELECT.</p>
+								 		<ul class="query">
+												<li>SELECT o.occurred_at, o.total, o.total_amt_usd, a.name</li>
+												<li>FROM orders o JOIN accounts a</li>
+												<li>ON r.id = sr.region_id</li>
+												<li>JOIN accounts a</li>
+											    <li>ON o.account_id = a.id</li>
+										</ul>
+
+
+								<p>Joining tables is completed. The data format of occurred is timestamp. There are a couple of different methods to find out 2015 data. The first approach is to use TO_CHAR by converting to 'YYYY' format. The second approach is to specify the year of 2015 in WHERE clause.</p>
+
+								<p>Let's take a look at the first approach. We use TO_CHAR to convert timestamp to character format.<br>
+								TO_CHAR(o.occurred_at, 'YYYY')<br>
+								And we use WHERE clause to find out the year 2015 data only.</p>
+										<ul class="query">
+												<li>SELECT TO_CHAR(o.occurred_at, 'YYYY') AS year, o.total, o.total_amt_usd, a.name</li>
+												<li>FROM orders o JOIN accounts a</li>
+											    <li>ON o.account_id = a.id</li>
+											    <li>WHERE TO_CHAR(o.occurred_at, 'YYYY') = '2015'</li>
+										</ul>
+								<p>Move on to the second approach. In where clause the year to set between 01-01-2015 and 01-01-2016. Note: Time format varies depending on which SQL database to use.<br>BETWEEN '01-01-2015' AND '01-01-2016'<br>
+								Applying Order by clause is an option.</p>
+
+										<ul class="query">
+												<li>SELECT o.occurred_at, o.total, o.total_amt_usd, a.name</li>
+												<li>FROM orders o JOIN accounts a</li>
+											    <li>ON o.account_id = a.id</li>
+											    <li>WHERE o.occurred_at BETWEEN '01-01-2015' AND '01-01-2016'</li>
+											    <li>ORDER BY o.occurred_at DESC</li>
+										</ul>
+								<p>Obviously, the second approach is direct and can be sorted by time. It's more efficient. This is a practice to find out different ways to get data. Just to be fun!</p>		
+			
 						        <h3>Sorting data with Excel pivot table</h3>
 
 						        <p>Let’s say we want to understand how sales reps are doing and their managers as well. This time we use Oracle Live SQL. We create a view called “SR_VREP_VI” and it returns information whose job id is sales reps from employees table. We add a new column called full_name. The column is concat of employees first and last name in case if the same names exist and for clarity. Then, we call the view.</p>
