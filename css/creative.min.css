@@ -9362,7 +9362,7 @@ button.bg-dark:focus {
 }
 
 .text-primary {
-  color: #666 !important;
+  color: #fff !important;
 }
 
 a.text-primary:hover, a.text-primary:focus {
@@ -9591,7 +9591,7 @@ hr.light {
 
 #mainNav {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-  background-color: #ccc;
+  background-color: #fff;
   transition: background-color 0.2s ease;
 }
 
@@ -9614,7 +9614,7 @@ hr.light {
 }
 
 #mainNav .navbar-nav .nav-item .nav-link.active {
-  color: # !important;
+  color: #000 !important;
 }
 
 @media (min-width: 992px) {
@@ -9659,33 +9659,21 @@ hr.light {
 header.masthead {
   padding-top: 10rem;
   padding-bottom: 0rem;
-  background: #4169E1;
-  /*f1b0b7*　calc(10rem - 72px)/
-
+  background-color: #4169E1;
+  /*f1b0b7*　calc(10rem - 72px)*/
 }
 
-header.masthead h1 {
-  font-size: 2.25rem;
-}
-
-@media (min-width: 992px) {
+/*@media (min-width: 992px) {
   header.masthead {
     height: 100vh;
-    min-height: 40rem;
+    min-height: 40rem;G
     padding-top: 72px;
-    padding-bottom: 0;
+    padding-bottom: 0rem;
   }
-  header.masthead p {
-    font-size: 1.15rem;
-  }
-  header.masthead h1 {
-    font-size: 3rem;
-  }
-}
+}*/
 
-@media (min-width: 1200px) {
-  header.masthead h1 {
-    font-size: 3.5rem;
-  }
-}
 
+
+#about{
+  background-color: #292929;
+}
