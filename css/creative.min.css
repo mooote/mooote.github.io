@@ -10,6 +10,7 @@
  * Copyright 2011-2019 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
+
 :root {.portfolio-box-caption{opacity:1}
   --blue: #007bff;
   --indigo: #6610f2;
@@ -4245,7 +4246,7 @@ input[type="button"].btn-block {
 
 .navbar-light .navbar-toggler {
   color: rgba(0, 0, 0, 0.5);
-  border-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(33, 37, 41, 1);
 }
 
 .navbar-light .navbar-toggler-icon {
@@ -9614,7 +9615,7 @@ hr.light {
 }
 
 #mainNav .navbar-nav .nav-item .nav-link.active {
-  color: #000 !important;
+  color: #333 !important;
 }
 
 @media (min-width: 992px) {
